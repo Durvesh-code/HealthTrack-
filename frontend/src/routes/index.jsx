@@ -4,6 +4,7 @@ import { useAuth } from "../context/AuthContext";
 
 // Pages
 import Login from "../pages/auth/Login";
+import LandingPage from "../pages/LandingPage";
 import RegisterPatient from "../pages/auth/RegisterPatient";
 import RegisterDoctor from "../pages/auth/RegisterDoctor";
 import RegisterPharmacist from "../pages/auth/RegisterPharmacist";
@@ -87,7 +88,8 @@ const AppRoutes = () => {
         <Route path="/register/pharmacist" element={<RegisterPharmacist />} />
       </Route>
 
-      <Route path="/" element={<Navigate to="/login" replace />} />
+      {/* Landing Page — standalone, no Layout wrapper */}
+      <Route path="/" element={<LandingPage />} />
 
       {/* Patient Routes */}
       <Route element={<ProtectedRoute allowedRoles={["patient"]} />}>
@@ -122,7 +124,7 @@ const AppRoutes = () => {
       </Route>
 
       {/* 404 - Redirect to Login */}
-      <Route path="*" element={<Navigate to="/login" replace />} />
+      <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>
   );
 };

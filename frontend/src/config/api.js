@@ -29,8 +29,9 @@ api.interceptors.response.use(
     (response) => response,
     (error) => {
         if (error.response && error.response.status === 401) {
-            // Only redirect if not already on login page to avoid loops
-            if (!window.location.pathname.includes('/login')) {
+            // Only redirect if not already on login/landing page to avoid loops
+            const path = window.location.pathname;
+            if (path !== '/' && !path.includes('/login') && !path.includes('/register')) {
                 localStorage.clear();
                 window.location.href = '/login';
             }
