@@ -24,7 +24,7 @@
 <br/>
 
 > **Breaking down the silos of modern healthcare.**
-> HealthTrack+ is a seamless, tripartite ecosystem connecting Patients, Doctors, and Pharmacies through a single, real-time data grid — built as a 6th Semester Major Industry Ready Project.
+> HealthTrack+ is a seamless, tripartite ecosystem connecting Patients, Doctors, and Pharmacies through a single, real-time data grid — built as a Major Industry Ready Project.
 
 </div>
 
