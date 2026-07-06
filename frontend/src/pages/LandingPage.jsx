@@ -133,6 +133,14 @@ const LandingPage = () => {
 
           <div className="hero-visual-side">
             <div className="hero-carousel-container">
+              {/* Glowing aura behind active card */}
+              <div className={`carousel-aura aura-${activeCard}`}></div>
+
+              {/* Floating ambient particles */}
+              <div className="carousel-particles">
+                <span></span><span></span><span></span><span></span><span></span><span></span>
+              </div>
+
               {/* Connection Lines Background */}
               <div className="flow-lines">
                 <div className={`flow-line ${activeCard === 0 ? 'active' : ''}`}></div>
@@ -142,25 +150,43 @@ const LandingPage = () => {
 
               {/* Patient Card */}
               <div className={`carousel-card patient-theme ${activeCard === 0 ? 'active' : ''} ${activeCard > 0 ? 'prev' : ''}`}>
+                <div className="card-shimmer"></div>
                 <div className="card-header">
                   <div className="role-icon"><i className="fa fa-user"></i></div>
                   <span className="role-name">Patient Portal</span>
+                  <span className="card-live-badge"><span className="pulse-dot"></span>Live</span>
                 </div>
                 <div className="card-body">
                   <div className="mock-action">
                     <i className="fa fa-calendar-plus"></i>
                     <span>Booking Appointment...</span>
                   </div>
-                  <div className="mock-detail">Dr. Sarah Smith • Cardiology</div>
+                  <div className="mock-detail">Dr. Sumit Mali • Cardiology</div>
                   <div className="mock-time">Tomorrow, 10:30 AM</div>
+                  <div className="card-metrics">
+                    <div className="metric">
+                      <i className="fa fa-heartbeat"></i>
+                      <span>72 bpm</span>
+                    </div>
+                    <div className="metric">
+                      <i className="fa fa-walking"></i>
+                      <span>8,420</span>
+                    </div>
+                    <div className="metric">
+                      <i className="fa fa-calendar-check"></i>
+                      <span>3 appts</span>
+                    </div>
+                  </div>
                 </div>
               </div>
 
               {/* Doctor Card */}
               <div className={`carousel-card doctor-theme ${activeCard === 1 ? 'active' : ''} ${activeCard > 1 ? 'prev' : ''} ${activeCard < 1 ? 'next' : ''}`}>
+                <div className="card-shimmer"></div>
                 <div className="card-header">
                   <div className="role-icon"><i className="fa fa-user-md"></i></div>
                   <span className="role-name">Doctor Portal</span>
+                  <span className="card-live-badge"><span className="pulse-dot"></span>Live</span>
                 </div>
                 <div className="card-body">
                   <div className="mock-action">
@@ -169,24 +195,91 @@ const LandingPage = () => {
                   </div>
                   <div className="mock-detail">Amoxicillin 500mg</div>
                   <div className="mock-status success"><i className="fa fa-check-circle"></i> In Stock Nearby</div>
+                  <div className="card-metrics">
+                    <div className="metric">
+                      <i className="fa fa-users"></i>
+                      <span>24 patients</span>
+                    </div>
+                    <div className="metric">
+                      <i className="fa fa-clock"></i>
+                      <span>~12 min</span>
+                    </div>
+                    <div className="metric">
+                      <i className="fa fa-star"></i>
+                      <span>4.9</span>
+                    </div>
+                  </div>
                 </div>
               </div>
 
               {/* Pharmacy Card */}
               <div className={`carousel-card pharmacy-theme ${activeCard === 2 ? 'active' : ''} ${activeCard < 2 ? 'next' : ''}`}>
+                <div className="card-shimmer"></div>
                 <div className="card-header">
                   <div className="role-icon"><i className="fa fa-pills"></i></div>
                   <span className="role-name">Pharmacy Portal</span>
+                  <span className="card-live-badge"><span className="pulse-dot"></span>Live</span>
                 </div>
                 <div className="card-body">
                   <div className="mock-action">
                     <i className="fa fa-box-open"></i>
                     <span>Dispensing Order...</span>
                   </div>
-                  <div className="mock-detail">Auto-deducting inventory</div>
+                  <div className="mock-detail">Duvesh Patil • Pharmacy</div>
+                  <div className="mock-time">Auto-deducting inventory</div>
                   <div className="mock-progress">
                     <div className="progress-bar"></div>
                   </div>
+                  <div className="card-metrics">
+                    <div className="metric">
+                      <i className="fa fa-boxes"></i>
+                      <span>1,247 items</span>
+                    </div>
+                    <div className="metric">
+                      <i className="fa fa-receipt"></i>
+                      <span>38 orders</span>
+                    </div>
+                    <div className="metric">
+                      <i className="fa fa-chart-line"></i>
+                      <span>+12%</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Dot Navigation */}
+              <div className="carousel-dots">
+                {[0, 1, 2].map((i) => (
+                  <button
+                    key={i}
+                    className={`carousel-dot ${activeCard === i ? 'active' : ''}`}
+                    onClick={() => setActiveCard(i)}
+                    aria-label={`Show card ${i + 1}`}
+                  >
+                    <svg className="dot-progress" viewBox="0 0 24 24">
+                      <circle className="dot-track" cx="12" cy="12" r="10" />
+                      {activeCard === i && <circle className="dot-fill" cx="12" cy="12" r="10" />}
+                    </svg>
+                  </button>
+                ))}
+              </div>
+
+              {/* Data Flow Connector */}
+              <div className="data-flow-connector">
+                <div className={`flow-node ${activeCard === 0 ? 'active' : ''}`}>
+                  <i className="fa fa-user"></i>
+                </div>
+                <div className={`flow-pipe ${activeCard >= 1 ? 'filled' : ''}`}>
+                  <div className="pipe-particle"></div>
+                </div>
+                <div className={`flow-node ${activeCard === 1 ? 'active' : ''}`}>
+                  <i className="fa fa-user-md"></i>
+                </div>
+                <div className={`flow-pipe ${activeCard >= 2 ? 'filled' : ''}`}>
+                  <div className="pipe-particle"></div>
+                </div>
+                <div className={`flow-node ${activeCard === 2 ? 'active' : ''}`}>
+                  <i className="fa fa-pills"></i>
                 </div>
               </div>
             </div>

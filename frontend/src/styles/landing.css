@@ -346,7 +346,7 @@
 .hero-visual-side {
   flex: 1;
   position: relative;
-  height: 400px;
+  height: 460px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -357,44 +357,112 @@
   position: relative;
   width: 100%;
   max-width: 420px;
-  height: 280px;
-  perspective: 1000px;
+  height: 440px;
+  perspective: 1200px;
 }
 
+/* --- Glowing Aura Behind Active Card --- */
+.carousel-aura {
+  position: absolute;
+  top: calc(50% + 25px);
+  left: 50%;
+  width: 320px;
+  height: 320px;
+  transform: translate(-50%, -55%);
+  border-radius: 50%;
+  filter: blur(80px);
+  opacity: 0.35;
+  transition: all 1s cubic-bezier(0.4, 0, 0.2, 1);
+  z-index: 0;
+  pointer-events: none;
+}
+
+.carousel-aura.aura-0 {
+  background: radial-gradient(circle, rgba(20, 217, 196, 0.6), rgba(43, 154, 243, 0.3), transparent 70%);
+}
+
+.carousel-aura.aura-1 {
+  background: radial-gradient(circle, rgba(167, 139, 250, 0.6), rgba(99, 102, 241, 0.3), transparent 70%);
+}
+
+.carousel-aura.aura-2 {
+  background: radial-gradient(circle, rgba(245, 158, 11, 0.6), rgba(239, 68, 68, 0.3), transparent 70%);
+}
+
+/* --- Floating Ambient Particles --- */
+.carousel-particles {
+  position: absolute;
+  inset: -20px;
+  z-index: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.carousel-particles span {
+  position: absolute;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: rgba(20, 217, 196, 0.5);
+  animation: particleFloat 6s ease-in-out infinite;
+}
+
+.carousel-particles span:nth-child(1) { top: 10%; left: 5%; animation-delay: 0s; animation-duration: 7s; }
+.carousel-particles span:nth-child(2) { top: 80%; left: 90%; animation-delay: 1s; animation-duration: 5s; background: rgba(167, 139, 250, 0.5); }
+.carousel-particles span:nth-child(3) { top: 20%; left: 85%; animation-delay: 2s; animation-duration: 8s; background: rgba(245, 158, 11, 0.4); }
+.carousel-particles span:nth-child(4) { top: 70%; left: 10%; animation-delay: 3s; animation-duration: 6s; background: rgba(43, 154, 243, 0.4); }
+.carousel-particles span:nth-child(5) { top: 50%; left: 95%; animation-delay: 1.5s; animation-duration: 9s; width: 3px; height: 3px; }
+.carousel-particles span:nth-child(6) { top: 90%; left: 50%; animation-delay: 4s; animation-duration: 7s; width: 5px; height: 5px; background: rgba(99, 102, 241, 0.3); }
+
+@keyframes particleFloat {
+  0%, 100% { transform: translate(0, 0) scale(1); opacity: 0; }
+  10% { opacity: 1; }
+  50% { transform: translate(15px, -25px) scale(1.5); opacity: 0.8; }
+  90% { opacity: 1; }
+}
+
+/* --- Carousel Cards --- */
 .carousel-card {
   position: absolute;
-  top: 0;
+  top: 50px;
   left: 0;
   width: 100%;
-  background: rgba(10, 21, 32, 0.85);
+  background: rgba(10, 21, 32, 0.88);
   border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: 20px;
   padding: 24px;
-  backdrop-filter: blur(20px);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
   box-shadow: 0 24px 48px rgba(0, 0, 0, 0.4);
   transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
   opacity: 0;
-  transform: translateY(40px) scale(0.9);
+  transform: translateY(40px) scale(0.9) rotateX(4deg);
   pointer-events: none;
   z-index: 1;
+  overflow: hidden;
 }
 
 .carousel-card.active {
   opacity: 1;
-  transform: translateY(0) scale(1);
+  transform: translateY(0) scale(1) rotateX(0deg);
   z-index: 3;
+  border-color: rgba(255, 255, 255, 0.15);
+  box-shadow:
+    0 24px 48px rgba(0, 0, 0, 0.4),
+    0 0 0 1px rgba(255, 255, 255, 0.06) inset;
 }
 
 .carousel-card.prev {
   opacity: 0;
-  transform: translateY(-40px) scale(0.9);
+  transform: translateY(-40px) scale(0.9) rotateX(-4deg);
 }
 
 .carousel-card.next {
   opacity: 0;
-  transform: translateY(40px) scale(0.9);
+  transform: translateY(40px) scale(0.9) rotateX(4deg);
 }
 
+/* Top accent line */
 .carousel-card::before {
   content: '';
   position: absolute;
@@ -409,11 +477,52 @@
 .doctor-theme::before { background: linear-gradient(90deg, #a78bfa, #6366f1); }
 .pharmacy-theme::before { background: linear-gradient(90deg, #f59e0b, #ef4444); }
 
+/* Active card border glow */
+.carousel-card.active.patient-theme {
+  border-color: rgba(20, 217, 196, 0.2);
+}
+.carousel-card.active.doctor-theme {
+  border-color: rgba(167, 139, 250, 0.2);
+}
+.carousel-card.active.pharmacy-theme {
+  border-color: rgba(245, 158, 11, 0.2);
+}
+
+/* --- Card Shimmer Effect --- */
+.card-shimmer {
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.03) 45%,
+    rgba(255, 255, 255, 0.06) 50%,
+    rgba(255, 255, 255, 0.03) 55%,
+    transparent 100%
+  );
+  z-index: 10;
+  pointer-events: none;
+  border-radius: 20px;
+}
+
+.carousel-card.active .card-shimmer {
+  animation: shimmerSweep 3s ease-in-out 0.5s;
+}
+
+@keyframes shimmerSweep {
+  0% { left: -100%; }
+  100% { left: 200%; }
+}
+
+/* --- Card Header --- */
 .card-header {
   display: flex;
   align-items: center;
   gap: 12px;
-  margin-bottom: 24px;
+  margin-bottom: 20px;
 }
 
 .role-icon {
@@ -424,18 +533,59 @@
   align-items: center;
   justify-content: center;
   font-size: 1.1rem;
+  transition: transform 0.4s ease, box-shadow 0.4s ease;
+}
+
+.carousel-card.active .role-icon {
+  transform: scale(1.08);
 }
 
 .patient-theme .role-icon { background: rgba(43, 154, 243, 0.15); color: #2b9af3; }
 .doctor-theme .role-icon { background: rgba(167, 139, 250, 0.15); color: #a78bfa; }
 .pharmacy-theme .role-icon { background: rgba(245, 158, 11, 0.15); color: #f59e0b; }
 
+.carousel-card.active.patient-theme .role-icon { box-shadow: 0 0 16px rgba(43, 154, 243, 0.2); }
+.carousel-card.active.doctor-theme .role-icon { box-shadow: 0 0 16px rgba(167, 139, 250, 0.2); }
+.carousel-card.active.pharmacy-theme .role-icon { box-shadow: 0 0 16px rgba(245, 158, 11, 0.2); }
+
 .role-name {
   font-weight: 600;
   font-size: 1.1rem;
   color: var(--landing-white);
+  flex: 1;
 }
 
+/* --- Live Badge --- */
+.card-live-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 0.68rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: #4ade80;
+  background: rgba(34, 197, 94, 0.1);
+  padding: 3px 10px;
+  border-radius: 20px;
+  border: 1px solid rgba(34, 197, 94, 0.2);
+}
+
+.pulse-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #4ade80;
+  display: inline-block;
+  animation: pulseDot 2s ease-in-out infinite;
+}
+
+@keyframes pulseDot {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.4; transform: scale(0.6); }
+}
+
+/* --- Card Body --- */
 .card-body {
   background: rgba(255, 255, 255, 0.03);
   border-radius: 12px;
@@ -505,7 +655,184 @@
   100% { width: 100%; }
 }
 
-/* Data Flow Lines */
+/* --- Mini Metrics Row --- */
+.card-metrics {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 14px;
+  padding-top: 12px;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.card-metrics .metric {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.5);
+  padding: 4px 6px;
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.03);
+  white-space: nowrap;
+}
+
+.card-metrics .metric i {
+  font-size: 0.65rem;
+  color: var(--landing-deep-teal-light);
+  opacity: 0.7;
+}
+
+.patient-theme .card-metrics .metric i { color: #2b9af3; }
+.doctor-theme .card-metrics .metric i { color: #a78bfa; }
+.pharmacy-theme .card-metrics .metric i { color: #f59e0b; }
+
+/* --- Dot Navigation --- */
+.carousel-dots {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  position: absolute;
+  bottom: 20px;
+  width: 100%;
+  z-index: 5;
+}
+
+.carousel-dot {
+  width: 28px;
+  height: 28px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.3s ease;
+}
+
+.carousel-dot:hover {
+  transform: scale(1.2);
+}
+
+.carousel-dot::before {
+  content: '';
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.2);
+  position: absolute;
+  transition: all 0.4s ease;
+}
+
+.carousel-dot.active::before {
+  background: var(--landing-deep-teal-light);
+  box-shadow: 0 0 10px rgba(20, 217, 196, 0.4);
+}
+
+.dot-progress {
+  width: 28px;
+  height: 28px;
+  transform: rotate(-90deg);
+}
+
+.dot-track {
+  fill: none;
+  stroke: rgba(255, 255, 255, 0.08);
+  stroke-width: 2;
+}
+
+.dot-fill {
+  fill: none;
+  stroke: var(--landing-deep-teal-light);
+  stroke-width: 2;
+  stroke-dasharray: 62.83;
+  stroke-dashoffset: 62.83;
+  stroke-linecap: round;
+  animation: dotProgress 3s linear forwards;
+}
+
+@keyframes dotProgress {
+  from { stroke-dashoffset: 62.83; }
+  to { stroke-dashoffset: 0; }
+}
+
+/* --- Data Flow Connector --- */
+.data-flow-connector {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0;
+  position: absolute;
+  top: 0px;
+  width: 100%;
+  z-index: 5;
+}
+
+.flow-node {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1.5px solid rgba(255, 255, 255, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.7rem;
+  color: rgba(255, 255, 255, 0.3);
+  transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  flex-shrink: 0;
+}
+
+.flow-node.active {
+  background: rgba(15, 107, 107, 0.2);
+  border-color: var(--landing-deep-teal-light);
+  color: var(--landing-deep-teal-light);
+  box-shadow: 0 0 14px rgba(15, 107, 107, 0.3);
+  transform: scale(1.15);
+}
+
+.flow-pipe {
+  width: 48px;
+  height: 2px;
+  background: rgba(255, 255, 255, 0.06);
+  position: relative;
+  overflow: hidden;
+  border-radius: 1px;
+}
+
+.flow-pipe.filled {
+  background: rgba(20, 217, 196, 0.15);
+}
+
+.pipe-particle {
+  position: absolute;
+  top: -1px;
+  left: -8px;
+  width: 8px;
+  height: 4px;
+  border-radius: 2px;
+  background: var(--landing-deep-teal-light);
+  opacity: 0;
+}
+
+.flow-pipe.filled .pipe-particle {
+  opacity: 1;
+  animation: pipeFlow 1.2s ease-in-out infinite;
+}
+
+@keyframes pipeFlow {
+  0% { left: -8px; opacity: 0; }
+  20% { opacity: 1; }
+  80% { opacity: 1; }
+  100% { left: calc(100% + 8px); opacity: 0; }
+}
+
+/* Data Flow Lines (legacy — hidden on mobile, visible desktop) */
 .flow-lines {
   position: absolute;
   top: 50%;
@@ -970,7 +1297,97 @@
 .landing-animate-stagger.visible > *:nth-child(8) { transition-delay: 0.7s; opacity: 1; transform: translateY(0); }
 
 /* ===== RESPONSIVE ===== */
+
+/* --- Extra Large / Projector (1600px+) --- */
+@media (min-width: 1600px) {
+  .hero-content.split-layout {
+    max-width: 1400px;
+    gap: 80px;
+  }
+
+  .section-container {
+    max-width: 1400px;
+  }
+
+  .hero-title {
+    font-size: 4.5rem;
+  }
+
+  .hero-subtitle {
+    font-size: 1.25rem;
+  }
+
+  .hero-carousel-container {
+    max-width: 500px;
+    height: 320px;
+  }
+
+  .portals-grid {
+    gap: 32px;
+  }
+
+  .portal-card {
+    padding: 44px 40px;
+  }
+
+  .tech-grid {
+    grid-template-columns: repeat(4, 1fr);
+    gap: 24px;
+  }
+}
+
+/* --- Large Desktop (1280px – 1599px) --- */
+@media (max-width: 1280px) {
+  .landing-nav {
+    padding: 0 36px;
+  }
+
+  .nav-links a {
+    padding: 10px 14px;
+    font-size: 0.84rem;
+  }
+
+  .nav-links .nav-cta {
+    padding: 10px 22px;
+  }
+
+  .hero-content.split-layout {
+    gap: 32px;
+  }
+
+  .hero-carousel-container {
+    max-width: 380px;
+  }
+
+  .landing-hero {
+    padding: 110px 36px 80px;
+  }
+
+  .landing-section {
+    padding: 90px 36px;
+  }
+}
+
+/* --- Standard Laptop / Small Desktop (1024px – 1279px) --- */
 @media (max-width: 1024px) {
+  .landing-nav {
+    padding: 0 28px;
+  }
+
+  .nav-links a {
+    padding: 8px 10px;
+    font-size: 0.82rem;
+    gap: 6px;
+  }
+
+  .nav-links .nav-cta {
+    padding: 8px 18px;
+  }
+
+  .nav-divider {
+    margin: 0;
+  }
+
   .portals-grid {
     grid-template-columns: 1fr;
     max-width: 520px;
@@ -984,9 +1401,36 @@
   .tech-grid {
     grid-template-columns: repeat(2, 1fr);
   }
+
+  .hero-content.split-layout {
+    gap: 24px;
+  }
+
+  .hero-carousel-container {
+    max-width: 340px;
+    height: 380px;
+  }
+
+  .hero-text-side {
+    max-width: 520px;
+  }
+
+  .landing-hero {
+    padding: 100px 28px 70px;
+  }
+
+  .landing-section {
+    padding: 80px 28px;
+  }
+
+  .cta-section {
+    padding: 100px 28px;
+  }
 }
 
-@media (max-width: 768px) {
+/* --- Tablet / Small Laptop (769px – 1023px) ---
+   Switch to mobile nav at 900px to prevent nav overflow */
+@media (max-width: 900px) {
   .landing-nav {
     padding: 0 24px;
   }
@@ -1000,9 +1444,40 @@
     flex-direction: column;
     background: rgba(6, 16, 26, 0.95);
     backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
     padding: 16px 24px;
     border-bottom: 1px solid var(--landing-border);
     gap: 4px;
+    animation: mobileMenuSlide 0.35s ease-out;
+  }
+
+  @keyframes mobileMenuSlide {
+    from {
+      opacity: 0;
+      transform: translateY(-12px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .nav-links a {
+    padding: 14px 18px;
+    font-size: 0.95rem;
+    border-radius: 12px;
+    width: 100%;
+  }
+
+  .nav-links a:hover {
+    background: rgba(255, 255, 255, 0.08);
+  }
+
+  .nav-links .nav-cta {
+    margin-left: 0;
+    margin-top: 8px;
+    justify-content: center;
+    padding: 14px 28px;
   }
 
   .nav-links .nav-divider {
@@ -1017,80 +1492,183 @@
     display: block;
   }
 
-  .landing-hero {
-    padding: 120px 24px 60px;
-  }
-
   .hero-content.split-layout {
     flex-direction: column;
     text-align: center;
-    gap: 60px;
+    gap: 32px;
   }
 
-  .hero-text-side {
-    max-width: 100%;
+  .hero-text-side, .hero-visual-side {
+    display: contents;
   }
 
   .hero-title {
-    font-size: 2.8rem;
-  }
-
-  .hero-actions {
-    justify-content: center;
-  }
-
-  .hero-visual-side {
-    width: 100%;
-    height: 300px;
+    order: 1;
   }
 
   .hero-carousel-container {
-    max-width: 340px;
-    height: 240px;
+    order: 2;
   }
 
-  .flow-lines {
-    display: none;
+  .hero-subtitle {
+    order: 3;
   }
 
+  .hero-actions {
+    order: 4;
+    justify-content: center;
+  }
+
+  .hero-carousel-container {
+    max-width: 380px;
+    height: 440px;
+    margin: 0 auto;
+  }
+
+  .landing-hero {
+    padding: 100px 24px 40px;
+    min-height: auto;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+  }
+
+  /* Feature strip moves below hero content instead of overlaying */
   .hero-feature-strip {
+    position: relative;
     flex-direction: column;
     gap: 12px;
-    padding: 16px;
-    position: relative;
+    padding: 20px 16px;
     background: transparent;
     border: none;
-    margin-top: 40px;
+    border-top: none;
+    margin-top: 16px;
+    width: 100%;
+    left: auto;
+    right: auto;
+    bottom: auto;
+  }
+
+  .strip-item {
+    justify-content: center;
   }
 
   .strip-divider {
     display: none;
   }
 
+  .flow-lines {
+    display: none;
+  }
+
   .landing-section {
-    padding: 64px 24px;
+    padding: 72px 24px;
   }
 
   .features-grid {
-    grid-template-columns: 1fr;
+    grid-template-columns: repeat(2, 1fr);
   }
 
   .tech-grid {
     grid-template-columns: repeat(2, 1fr);
   }
 
+  .cta-section {
+    padding: 80px 24px;
+  }
+
+  .footer-inner {
+    gap: 20px;
+  }
+}
+
+/* --- Tablet Portrait / Large Phone (600px – 768px) --- */
+@media (max-width: 768px) {
+  .landing-hero {
+    padding: 100px 20px 50px;
+    min-height: auto;
+  }
+
+  .hero-title {
+    font-size: 2.4rem;
+  }
+
+  .hero-subtitle {
+    font-size: 1rem;
+    margin-bottom: 32px;
+  }
+
+  .hero-content.split-layout {
+    gap: 40px;
+  }
+
+  .hero-visual-side {
+    height: 380px;
+  }
+
+  .hero-carousel-container {
+    max-width: 340px;
+    height: 420px;
+  }
+
+  .carousel-card {
+    padding: 20px;
+    border-radius: 16px;
+  }
+
+  .card-header {
+    margin-bottom: 18px;
+  }
+
+  .role-icon {
+    width: 36px;
+    height: 36px;
+    font-size: 1rem;
+  }
+
+  .role-name {
+    font-size: 1rem;
+  }
+
+  .card-body {
+    padding: 14px;
+  }
+
   .hero-actions {
     flex-direction: column;
+    align-items: center;
   }
 
   .hero-btn {
     width: 100%;
-    max-width: 300px;
+    max-width: 320px;
     justify-content: center;
+    padding: 14px 28px;
   }
 
-  .cta-section {
-    padding: 80px 24px;
+  .strip-item {
+    font-size: 0.88rem;
+  }
+
+  .portals-grid {
+    grid-template-columns: 1fr;
+    max-width: 100%;
+  }
+
+  .portal-card {
+    padding: 28px 24px;
+  }
+
+  .features-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .feature-card {
+    padding: 24px 20px;
+  }
+
+  .section-header-centered {
+    margin-bottom: 40px;
   }
 
   .cta-box {
@@ -1099,6 +1677,12 @@
 
   .cta-buttons {
     flex-direction: column;
+    align-items: center;
+  }
+
+  .cta-buttons .hero-btn {
+    width: 100%;
+    max-width: 300px;
   }
 
   .footer-inner {
@@ -1106,14 +1690,732 @@
     gap: 16px;
     text-align: center;
   }
+
+  .landing-footer {
+    padding: 32px 20px;
+  }
 }
 
-@media (max-width: 480px) {
+/* --- Mobile Phone (481px – 600px) --- */
+@media (max-width: 600px) {
+  .landing-nav {
+    padding: 0 16px;
+    height: 64px;
+  }
+
+  .nav-brand img {
+    width: 36px;
+    height: 36px;
+  }
+
+  .nav-brand-name {
+    font-size: 1.2rem;
+  }
+
+  .nav-brand {
+    gap: 10px;
+  }
+
+  .nav-links {
+    top: 64px;
+    padding: 12px 16px;
+  }
+
+  .landing-hero {
+    padding: 90px 16px 40px;
+  }
+
   .hero-title {
     font-size: 2rem;
+    margin-bottom: 16px;
+  }
+
+  .hero-subtitle {
+    font-size: 0.92rem;
+    margin-bottom: 28px;
+    line-height: 1.65;
+  }
+
+  .hero-visual-side {
+    height: 420px;
+  }
+
+  .hero-carousel-container {
+    max-width: 300px;
+    height: 400px;
+  }
+
+  .carousel-card {
+    padding: 18px;
+    border-radius: 14px;
+  }
+
+  .card-header {
+    margin-bottom: 14px;
+    gap: 10px;
+  }
+
+  .role-icon {
+    width: 34px;
+    height: 34px;
+    font-size: 0.9rem;
+    border-radius: 8px;
+  }
+
+  .role-name {
+    font-size: 0.95rem;
+  }
+
+  .card-body {
+    padding: 12px;
+    border-radius: 10px;
+  }
+
+  .mock-action {
+    font-size: 0.82rem;
+    gap: 8px;
+    margin-bottom: 8px;
+  }
+
+  .mock-detail {
+    font-size: 0.92rem;
+  }
+
+  .mock-time {
+    font-size: 0.78rem;
+  }
+
+  .mock-status {
+    font-size: 0.72rem;
+    padding: 3px 8px;
+  }
+
+  .landing-section {
+    padding: 56px 16px;
+  }
+
+  .section-label {
+    font-size: 0.72rem;
+    letter-spacing: 1.5px;
+  }
+
+  .section-header-centered {
+    margin-bottom: 32px;
+  }
+
+  .portal-card {
+    padding: 24px 20px;
+    border-radius: 16px;
+  }
+
+  .portal-icon {
+    width: 48px;
+    height: 48px;
+    font-size: 1.3rem;
+    border-radius: 14px;
+  }
+
+  .portal-card h3 {
+    font-size: 1.15rem;
+  }
+
+  .portal-card p {
+    font-size: 0.88rem;
+  }
+
+  .portal-features li {
+    font-size: 0.84rem;
+  }
+
+  .feature-card {
+    padding: 22px 18px;
+    border-radius: 14px;
+  }
+
+  .feature-icon {
+    width: 40px;
+    height: 40px;
+    font-size: 1.1rem;
+    border-radius: 10px;
+  }
+
+  .feature-card h4 {
+    font-size: 0.95rem;
+  }
+
+  .feature-card p {
+    font-size: 0.84rem;
   }
 
   .tech-grid {
-    grid-template-columns: 1fr;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+  }
+
+  .tech-card {
+    padding: 20px 16px;
+    border-radius: 12px;
+  }
+
+  .tech-card i {
+    font-size: 1.6rem;
+    margin-bottom: 8px;
+  }
+
+  .tech-card h5 {
+    font-size: 0.88rem;
+  }
+
+  .tech-card span {
+    font-size: 0.72rem;
+  }
+
+  .arch-image-wrapper {
+    border-radius: 14px;
+  }
+
+  .cta-section {
+    padding: 60px 16px;
+  }
+
+  .cta-box {
+    padding: 32px 20px;
+    border-radius: 18px;
+  }
+
+  .cta-title {
+    font-size: 1.4rem;
+  }
+
+  .cta-desc {
+    font-size: 0.92rem;
+    margin-bottom: 28px;
+  }
+
+  .landing-footer {
+    padding: 28px 16px;
+  }
+
+  .footer-brand span {
+    font-size: 1rem;
+  }
+
+  .footer-team {
+    font-size: 0.8rem;
+  }
+
+  .footer-text {
+    font-size: 0.75rem;
+  }
+
+  /* Enhanced mobile animations — carousel pulse glow */
+  .carousel-card.active {
+    animation: mobileCardPulse 3s ease-in-out infinite alternate;
+  }
+
+  @keyframes mobileCardPulse {
+    0% {
+      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.4);
+    }
+    100% {
+      box-shadow: 0 20px 50px rgba(15, 107, 107, 0.25), 0 0 60px rgba(15, 107, 107, 0.08);
+    }
+  }
+
+  /* Mobile-enhanced stagger — slightly faster for snappier feel */
+  .landing-animate {
+    transition: opacity 0.5s ease, transform 0.5s ease;
+  }
+
+  .landing-animate-stagger > * {
+    transition: opacity 0.4s ease, transform 0.4s ease;
+  }
+}
+
+/* --- Small Mobile / iPhone SE / Mini (361px – 480px) --- */
+@media (max-width: 480px) {
+  .hero-title {
+    font-size: 1.75rem;
+    line-height: 1.18;
+  }
+
+  .hero-subtitle {
+    font-size: 0.88rem;
+  }
+
+  .hero-btn {
+    padding: 13px 24px;
+    font-size: 0.9rem;
+    border-radius: 12px;
+  }
+
+  .hero-visual-side {
+    height: 400px;
+  }
+
+  .hero-carousel-container {
+    max-width: 280px;
+    height: 380px;
+  }
+
+  .carousel-card {
+    padding: 16px;
+  }
+
+  .card-header {
+    margin-bottom: 12px;
+  }
+
+  .role-icon {
+    width: 30px;
+    height: 30px;
+    font-size: 0.8rem;
+  }
+
+  .role-name {
+    font-size: 0.88rem;
+  }
+
+  .card-body {
+    padding: 10px;
+  }
+
+  .mock-action {
+    font-size: 0.78rem;
+  }
+
+  .mock-detail {
+    font-size: 0.85rem;
+  }
+
+  .tech-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+  }
+
+  .portal-card {
+    padding: 22px 18px;
+  }
+
+  .section-title {
+    font-size: 1.5rem;
+  }
+
+  .section-desc {
+    font-size: 0.92rem;
+  }
+
+  .hero-feature-strip {
+    gap: 10px;
+    margin-top: 24px;
+  }
+
+  .strip-item {
+    font-size: 0.82rem;
+  }
+
+  .strip-item i {
+    font-size: 0.9rem;
+  }
+
+  .cta-box {
+    padding: 28px 16px;
+    border-radius: 16px;
+  }
+
+  .cta-title {
+    font-size: 1.25rem;
+  }
+
+  .cta-desc {
+    font-size: 0.88rem;
+  }
+}
+
+/* --- Ultra Small / Folding Phone / Galaxy Fold (under 360px) --- */
+@media (max-width: 360px) {
+  .landing-nav {
+    padding: 0 12px;
+    height: 60px;
+  }
+
+  .nav-brand img {
+    width: 32px;
+    height: 32px;
+  }
+
+  .nav-brand-name {
+    font-size: 1.05rem;
+  }
+
+  .nav-brand {
+    gap: 8px;
+  }
+
+  .nav-links {
+    top: 60px;
+    padding: 10px 12px;
+  }
+
+  .nav-links a {
+    padding: 12px 14px;
+    font-size: 0.88rem;
+  }
+
+  .landing-hero {
+    padding: 80px 12px 36px;
+  }
+
+  .hero-title {
+    font-size: 1.5rem;
+    margin-bottom: 12px;
+  }
+
+  .hero-subtitle {
+    font-size: 0.82rem;
+    margin-bottom: 24px;
+    line-height: 1.6;
+  }
+
+  .hero-visual-side {
+    height: 370px;
+  }
+
+  .hero-carousel-container {
+    max-width: 250px;
+    height: 350px;
+  }
+
+  .carousel-card {
+    padding: 14px;
+    border-radius: 12px;
+  }
+
+  .card-header {
+    margin-bottom: 10px;
+    gap: 8px;
+  }
+
+  .role-icon {
+    width: 28px;
+    height: 28px;
+    font-size: 0.75rem;
+    border-radius: 7px;
+  }
+
+  .role-name {
+    font-size: 0.82rem;
+  }
+
+  .card-body {
+    padding: 8px;
+    border-radius: 8px;
+  }
+
+  .mock-action {
+    font-size: 0.72rem;
+    gap: 6px;
+    margin-bottom: 6px;
+  }
+
+  .mock-detail {
+    font-size: 0.78rem;
+    margin-bottom: 4px;
+  }
+
+  .mock-time {
+    font-size: 0.7rem;
+  }
+
+  .mock-status {
+    font-size: 0.65rem;
+    padding: 2px 6px;
+  }
+
+  .mock-progress {
+    height: 4px;
+    margin-top: 8px;
+  }
+
+  .hero-btn {
+    padding: 12px 20px;
+    font-size: 0.85rem;
+    border-radius: 10px;
+    max-width: 100%;
+  }
+
+  .hero-feature-strip {
+    gap: 8px;
+    margin-top: 20px;
+    padding: 12px;
+  }
+
+  .strip-item {
+    font-size: 0.75rem;
+    gap: 8px;
+  }
+
+  .landing-section {
+    padding: 44px 12px;
+  }
+
+  .section-label {
+    font-size: 0.68rem;
+    letter-spacing: 1.2px;
+    margin-bottom: 12px;
+  }
+
+  .section-title {
+    font-size: 1.3rem;
+    margin-bottom: 12px;
+  }
+
+  .section-desc {
+    font-size: 0.85rem;
+    line-height: 1.6;
+  }
+
+  .section-header-centered {
+    margin-bottom: 28px;
+  }
+
+  .portals-grid {
+    gap: 16px;
+  }
+
+  .portal-card {
+    padding: 20px 16px;
+    border-radius: 14px;
+  }
+
+  .portal-icon {
+    width: 44px;
+    height: 44px;
+    font-size: 1.2rem;
+    border-radius: 12px;
+    margin-bottom: 16px;
+  }
+
+  .portal-card h3 {
+    font-size: 1.05rem;
+    margin-bottom: 10px;
+  }
+
+  .portal-card p {
+    font-size: 0.82rem;
+    margin-bottom: 16px;
+  }
+
+  .portal-features {
+    gap: 8px;
+  }
+
+  .portal-features li {
+    font-size: 0.78rem;
+    gap: 8px;
+  }
+
+  .portal-features li i {
+    font-size: 0.65rem;
+  }
+
+  .features-grid {
+    gap: 12px;
+  }
+
+  .feature-card {
+    padding: 20px 16px;
+    border-radius: 12px;
+  }
+
+  .feature-icon {
+    width: 36px;
+    height: 36px;
+    font-size: 1rem;
+    border-radius: 8px;
+    margin-bottom: 12px;
+  }
+
+  .feature-card h4 {
+    font-size: 0.88rem;
+    margin-bottom: 6px;
+  }
+
+  .feature-card p {
+    font-size: 0.78rem;
+    line-height: 1.55;
+  }
+
+  .tech-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 8px;
+  }
+
+  .tech-card {
+    padding: 16px 12px;
+    border-radius: 10px;
+  }
+
+  .tech-card i {
+    font-size: 1.4rem;
+    margin-bottom: 6px;
+  }
+
+  .tech-card h5 {
+    font-size: 0.8rem;
+    margin-bottom: 2px;
+  }
+
+  .tech-card span {
+    font-size: 0.68rem;
+  }
+
+  .arch-image-wrapper {
+    border-radius: 12px;
+  }
+
+  .cta-section {
+    padding: 48px 12px;
+  }
+
+  .cta-box {
+    padding: 24px 14px;
+    border-radius: 14px;
+  }
+
+  .cta-title {
+    font-size: 1.15rem;
+    margin-bottom: 12px;
+  }
+
+  .cta-desc {
+    font-size: 0.82rem;
+    margin-bottom: 24px;
+    line-height: 1.6;
+  }
+
+  .cta-buttons .hero-btn {
+    max-width: 100%;
+  }
+
+  .landing-footer {
+    padding: 24px 12px;
+  }
+
+  .footer-brand img {
+    width: 28px;
+    height: 28px;
+  }
+
+  .footer-brand span {
+    font-size: 0.92rem;
+  }
+
+  .footer-team {
+    font-size: 0.75rem;
+  }
+
+  .footer-text {
+    font-size: 0.7rem;
+  }
+
+  /* Ultra-small enhanced carousel glow animation */
+  .carousel-card.active {
+    animation: foldCardGlow 3s ease-in-out infinite alternate;
+  }
+
+  @keyframes foldCardGlow {
+    0% {
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.35);
+    }
+    100% {
+      box-shadow: 0 16px 40px rgba(15, 107, 107, 0.2), 0 0 40px rgba(15, 107, 107, 0.06);
+    }
+  }
+
+  /* Faster scroll animations for small screens */
+  .landing-animate {
+    transition: opacity 0.4s ease, transform 0.4s ease;
+    transform: translateY(20px);
+  }
+
+  .landing-animate-stagger > * {
+    transition: opacity 0.35s ease, transform 0.35s ease;
+    transform: translateY(14px);
+  }
+}
+
+/* --- Landscape orientation for phones --- */
+@media (max-height: 500px) and (orientation: landscape) {
+  .landing-hero {
+    min-height: auto;
+    padding-top: 80px;
+    padding-bottom: 40px;
+  }
+
+  .hero-content.split-layout {
+    flex-direction: row;
+    text-align: left;
+    gap: 24px;
+  }
+
+  .hero-visual-side {
+    height: 200px;
+  }
+
+  .hero-carousel-container {
+    max-width: 260px;
+    height: 180px;
+  }
+
+  .hero-title {
+    font-size: 1.6rem;
+  }
+
+  .hero-subtitle {
+    font-size: 0.85rem;
+    margin-bottom: 16px;
+  }
+
+  .hero-actions {
+    flex-direction: row;
+    justify-content: flex-start;
+  }
+
+  .hero-btn {
+    width: auto;
+    max-width: none;
+    padding: 10px 20px;
+    font-size: 0.85rem;
+  }
+
+  .hero-feature-strip {
+    flex-direction: row;
+    position: absolute;
+    bottom: 0;
+    margin-top: 0;
+    gap: 24px;
+  }
+
+  .strip-divider {
+    display: block;
+  }
+}
+
+/* --- Reduced Motion Preference --- */
+@media (prefers-reduced-motion: reduce) {
+  .landing-animate,
+  .landing-animate-stagger > *,
+  .carousel-card,
+  .hero-bg::before,
+  .hero-bg::after,
+  .progress-bar,
+  .flow-line.active {
+    animation: none !important;
+    transition: none !important;
+  }
+
+  .carousel-card.active {
+    animation: none !important;
   }
 }
