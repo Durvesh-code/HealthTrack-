@@ -363,7 +363,7 @@ const BookAppointment = () => {
         >
           
           <div 
-            className="bg-white rounded-2xl shadow-2xl w-full max-w-md md:max-w-xl overflow-hidden animate-zoomIn border border-border-light relative flex flex-col max-h-[90vh]"
+            className="bg-white rounded-2xl shadow-2xl w-full max-w-sm sm:max-w-md md:max-w-xl overflow-hidden animate-zoomIn border border-border-light relative flex flex-col max-h-[95vh] sm:max-h-[90vh]"
             onClick={(e) => e.stopPropagation()}
           >
             
@@ -381,7 +381,7 @@ const BookAppointment = () => {
             </div>
 
             {/* Scrollable Content */}
-            <div className="p-6 md:p-8 overflow-y-auto">
+            <div className="p-4 sm:p-6 md:p-8 overflow-y-auto">
               
               {/* Doctor Mini Profile (Shared) */}
               <div className="flex items-center gap-4 mb-8 pb-6 border-b border-border-light">
@@ -439,7 +439,7 @@ const BookAppointment = () => {
                     )}
                   </div>
                   
-                  <div className="grid grid-cols-2 gap-4 mt-6">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-6">
                     <div className="p-4 bg-soft-slate rounded-xl border border-border-light">
                       <p className="text-xs font-bold text-warm-gray uppercase tracking-wider mb-1">Clinic</p>
                       <p className="text-sm font-semibold text-text-primary">{activeDoctor.clinic_name || 'N/A'}</p>
@@ -486,7 +486,7 @@ const BookAppointment = () => {
                     )}
                   </div>
 
-                  <div className="grid grid-cols-2 gap-4">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div>
                       <label className="block text-sm font-bold text-text-primary mb-1.5">Date</label>
                       <input 
