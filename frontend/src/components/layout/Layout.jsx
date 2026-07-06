@@ -15,6 +15,7 @@ const Layout = ({ children }) => {
   const location = useLocation();
   const navigate = useNavigate();
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
+  const [mobileOpen, setMobileOpen] = useState(false);
   const [languageOpen, setLanguageOpen] = useState(false);
   const [pendingCollabCount, setPendingCollabCount] = useState(0);
 
@@ -61,7 +62,15 @@ const Layout = ({ children }) => {
   );
 
   const toggleSidebar = () => {
-    setSidebarCollapsed(!sidebarCollapsed);
+    if (window.innerWidth <= 768) {
+      setMobileOpen(!mobileOpen);
+    } else {
+      setSidebarCollapsed(!sidebarCollapsed);
+    }
+  };
+
+  const closeMobileSidebar = () => {
+    setMobileOpen(false);
   };
 
   const handleLogout = () => {
@@ -214,8 +223,16 @@ const Layout = ({ children }) => {
 
   return (
     <div className="dashboard-layout">
+      {/* Mobile Overlay */}
+      {mobileOpen && (
+        <div
+          className="sidebar-overlay"
+          onClick={closeMobileSidebar}
+        />
+      )}
+
       {/* Left Sidebar */}
-      <aside className={`sidebar ${sidebarCollapsed ? "collapsed" : ""}`}>
+      <aside className={`sidebar ${sidebarCollapsed ? "collapsed" : ""} ${mobileOpen ? "active" : ""}`}>
         <div className="logo-section">
           <img
             src="/images/logo.png"
@@ -235,6 +252,7 @@ const Layout = ({ children }) => {
                 to={item.path}
                 className={isActive(item.path) ? "active" : ""}
                 style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}
+                onClick={closeMobileSidebar}
               >
                 <span style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
                   <i className={`fa ${item.icon}`}></i>
