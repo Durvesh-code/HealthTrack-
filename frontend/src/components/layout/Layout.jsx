@@ -291,6 +291,7 @@ const Layout = ({ children }) => {
       <div className="main-area">
         {/* Top Navbar */}
         <header className="top-nav">
+          {/* LEFT — hamburger + page title */}
           <div className="left-section">
             <button onClick={toggleSidebar} className="menu-btn">
               <i className="fa fa-bars"></i>
@@ -298,44 +299,7 @@ const Layout = ({ children }) => {
             <h1>{pageTitle}</h1>
           </div>
 
-          {/* Language Selector */}
-          <div className={`language-selector ${languageOpen ? "open" : ""}`}>
-            <button
-              className="language-btn"
-              title="Select Language"
-              onClick={() => setLanguageOpen(!languageOpen)}
-            >
-              <i className="fa-solid fa-globe"></i>
-              <span className="current-lang">{currentLangName}</span>
-              <i className="fa-solid fa-chevron-down dropdown-arrow"></i>
-            </button>
-
-            <div className="language-dropdown">
-              <div
-                className={`language-option ${currentLanguage === "en" ? "active" : ""}`}
-                onClick={() => handleLanguageChange("en")}
-              >
-                <span className="lang-code">EN</span>
-                <span className="lang-name">English</span>
-              </div>
-              <div
-                className={`language-option ${currentLanguage === "hi" ? "active" : ""}`}
-                onClick={() => handleLanguageChange("hi")}
-              >
-                <span className="lang-code">HI</span>
-                <span className="lang-name">हिंदी</span>
-              </div>
-              <div
-                className={`language-option ${currentLanguage === "mr" ? "active" : ""}`}
-                onClick={() => handleLanguageChange("mr")}
-              >
-                <span className="lang-code">MR</span>
-                <span className="lang-name">मराठी</span>
-              </div>
-            </div>
-          </div>
-
-          {/* Search */}
+          {/* CENTER — Search */}
           <div className="search-section">
             <form onSubmit={(e) => e.preventDefault()}>
               <input type="text" placeholder={t("common.search")} name="q" />
@@ -345,10 +309,50 @@ const Layout = ({ children }) => {
             </form>
           </div>
 
-          {/* User Section */}
-          <div className="user-section">
-            <img src={getAvatarUrl()} className="avatar" alt="User" />
-            <span>{getUserName()}</span>
+          {/* RIGHT — Language selector + User */}
+          <div className="right-section">
+            {/* Language Selector */}
+            <div className={`language-selector ${languageOpen ? "open" : ""}`}>
+              <button
+                className="language-btn"
+                title="Select Language"
+                onClick={() => setLanguageOpen(!languageOpen)}
+              >
+                <i className="fa-solid fa-globe"></i>
+                <span className="current-lang">{currentLangName}</span>
+                <i className="fa-solid fa-chevron-down dropdown-arrow"></i>
+              </button>
+
+              <div className="language-dropdown">
+                <div
+                  className={`language-option ${currentLanguage === "en" ? "active" : ""}`}
+                  onClick={() => handleLanguageChange("en")}
+                >
+                  <span className="lang-code">EN</span>
+                  <span className="lang-name">English</span>
+                </div>
+                <div
+                  className={`language-option ${currentLanguage === "hi" ? "active" : ""}`}
+                  onClick={() => handleLanguageChange("hi")}
+                >
+                  <span className="lang-code">HI</span>
+                  <span className="lang-name">हिंदी</span>
+                </div>
+                <div
+                  className={`language-option ${currentLanguage === "mr" ? "active" : ""}`}
+                  onClick={() => handleLanguageChange("mr")}
+                >
+                  <span className="lang-code">MR</span>
+                  <span className="lang-name">मराठी</span>
+                </div>
+              </div>
+            </div>
+
+            {/* User */}
+            <div className="user-section">
+              <img src={getAvatarUrl()} className="avatar" alt="User" />
+              <span>{getUserName()}</span>
+            </div>
           </div>
         </header>
 
