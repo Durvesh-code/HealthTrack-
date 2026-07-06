@@ -106,30 +106,31 @@ const WatchData = () => {
   const displayData = chartData || defaultChartData;
 
   return (
-    <div className="w-full max-w-none px-6 py-6">
-      <div className="flex justify-between items-center mb-6">
+    <div className="w-full max-w-none px-4 sm:px-6 py-4 sm:py-6">
+      {/* Header + controls */}
+      <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4 mb-6">
         <div>
-          <h2 className="text-2xl font-bold text-gray-800 flex items-center gap-2">
+          <h2 className="text-xl sm:text-2xl font-bold text-gray-800 flex items-center gap-2">
             <span className="text-red-500">❤️</span> Smartwatch Health Data
           </h2>
-          <p className="text-gray-500">Track and visualize your Google Fit metrics.</p>
+          <p className="text-gray-500 text-sm sm:text-base mt-0.5">Track and visualize your Google Fit metrics.</p>
         </div>
-        
+
         {isConnected && (
-          <div className="flex gap-4 items-center">
-            <select 
-              className="border p-2 rounded-md bg-white text-gray-700"
-              value={days} 
+          <div className="flex flex-wrap gap-2 sm:gap-4 items-center">
+            <select
+              className="border p-2 rounded-md bg-white text-gray-700 text-sm flex-1 sm:flex-none min-w-[120px]"
+              value={days}
               onChange={(e) => setDays(e.target.value)}
             >
               <option value="7">Last 7 Days</option>
               <option value="30">Last 30 Days</option>
               <option value="90">Last 90 Days</option>
             </select>
-            <button 
-              onClick={handleSync} 
+            <button
+              onClick={handleSync}
               disabled={syncing}
-              className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 disabled:opacity-50 transition"
+              className="flex-1 sm:flex-none px-3 sm:px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 disabled:opacity-50 transition text-sm font-medium"
             >
               {syncing ? "⏳ Syncing..." : "🔄 Sync Latest Data"}
             </button>
@@ -138,46 +139,46 @@ const WatchData = () => {
       </div>
 
       {!isConnected ? (
-        <div className="bg-white p-8 rounded-lg shadow-sm text-center border border-gray-100">
-          <p className="text-gray-600 mb-4">Connect your Google Fit account to view your smartwatch data.</p>
-          <button 
+        <div className="bg-white p-6 sm:p-8 rounded-lg shadow-sm text-center border border-gray-100">
+          <p className="text-gray-600 mb-4 text-sm sm:text-base">Connect your Google Fit account to view your smartwatch data.</p>
+          <button
             onClick={handleConnect}
-            className="px-6 py-3 bg-red-500 text-white font-medium rounded-lg hover:bg-red-600 shadow-md transition"
+            className="px-5 sm:px-6 py-2.5 sm:py-3 bg-red-500 text-white font-medium rounded-lg hover:bg-red-600 shadow-md transition text-sm sm:text-base"
           >
             Google Fit (Connect Google Fit)
           </button>
         </div>
       ) : (
-        <div className="grid w-full grid-cols-1 md:grid-cols-2 gap-6">
+        <div className="grid w-full grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
 
           {/* 1. Steps */}
-          <div className="bg-white p-4 rounded-xl shadow-sm border border-gray-100 h-80">
-            <h3 className="font-semibold text-gray-700 mb-4">🚶 Steps</h3>
-            <div className="h-60">
+          <div className="bg-white p-3 sm:p-4 rounded-xl shadow-sm border border-gray-100" style={{ height: '280px' }}>
+            <h3 className="font-semibold text-gray-700 mb-2 sm:mb-4 text-sm sm:text-base">🚶 Steps</h3>
+            <div style={{ height: '220px' }}>
               <Line data={generateChartConfig(displayData.steps, "Steps", "#3b82f6")} options={chartOptions} />
             </div>
           </div>
 
           {/* 2. Calories */}
-          <div className="bg-white p-4 rounded-xl shadow-sm border border-gray-100 h-80">
-            <h3 className="font-semibold text-gray-700 mb-4">🔥 Calories Burned (kcal)</h3>
-            <div className="h-60">
+          <div className="bg-white p-3 sm:p-4 rounded-xl shadow-sm border border-gray-100" style={{ height: '280px' }}>
+            <h3 className="font-semibold text-gray-700 mb-2 sm:mb-4 text-sm sm:text-base">🔥 Calories Burned (kcal)</h3>
+            <div style={{ height: '220px' }}>
               <Line data={generateChartConfig(displayData.calories, "Calories", "#f59e0b")} options={chartOptions} />
             </div>
           </div>
 
           {/* 3. Heart Rate */}
-          <div className="bg-white p-4 rounded-xl shadow-sm border border-gray-100 h-80">
-            <h3 className="font-semibold text-gray-700 mb-4">💓 Heart Rate (bpm)</h3>
-            <div className="h-60">
+          <div className="bg-white p-3 sm:p-4 rounded-xl shadow-sm border border-gray-100" style={{ height: '280px' }}>
+            <h3 className="font-semibold text-gray-700 mb-2 sm:mb-4 text-sm sm:text-base">💓 Heart Rate (bpm)</h3>
+            <div style={{ height: '220px' }}>
               <Line data={generateChartConfig(displayData.heart_rate, "Heart Rate", "#ef4444")} options={chartOptions} />
             </div>
           </div>
 
           {/* 4. Sleep */}
-          <div className="bg-white p-4 rounded-xl shadow-sm border border-gray-100 h-80">
-            <h3 className="font-semibold text-gray-700 mb-4">🛌 Sleep Duration (mins)</h3>
-            <div className="h-60">
+          <div className="bg-white p-3 sm:p-4 rounded-xl shadow-sm border border-gray-100" style={{ height: '280px' }}>
+            <h3 className="font-semibold text-gray-700 mb-2 sm:mb-4 text-sm sm:text-base">🛌 Sleep Duration (mins)</h3>
+            <div style={{ height: '220px' }}>
               <Line data={generateChartConfig(displayData.sleep, "Sleep", "#10b981")} options={chartOptions} />
             </div>
           </div>
