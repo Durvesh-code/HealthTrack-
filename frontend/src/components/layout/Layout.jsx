@@ -91,6 +91,11 @@ const Layout = ({ children }) => {
           icon: "fa-pills",
           label: t("nav.registerPharmacist"),
         },
+        {
+          path: "/",
+          icon: "fa-home",
+          label: "Go to Home Page",
+        },
       ];
     }
 
