@@ -141,6 +141,11 @@ const RegisterPharmacist = () => {
               {t('auth.alreadyHaveAccount')}{' '}
               <Link to="/login" className="text-green-600 font-semibold hover:underline">{t('nav.login')}</Link>
             </p>
+            <div className="mt-4 pt-4 border-t border-border-light flex justify-center">
+              <Link to="/" className="inline-flex items-center gap-2 text-green-600 font-semibold hover:opacity-80 transition-opacity">
+                <i className="fa fa-arrow-left"></i> Go to Home Page
+              </Link>
+            </div>
           </div>
         </div>
       </div>

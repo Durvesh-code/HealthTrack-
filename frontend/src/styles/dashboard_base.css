@@ -219,14 +219,25 @@ body {
 }
 
 /* Search */
+.search-section {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 20px;
+}
+
 .search-section form {
     display: flex;
     align-items: center;
     background: var(--soft-slate);
     border-radius: 8px;
-    padding: 4px 8px;
+    padding: 0 8px;
     border: 1px solid transparent;
     transition: border-color 0.2s ease;
+    width: 100%;
+    max-width: 320px;
+    height: 40px;
 }
 
 .search-section form:focus-within {
@@ -237,10 +248,11 @@ body {
 .search-section input {
     border: none;
     outline: none;
-    padding: 8px 10px;
-    font-size: 0.95rem;
+    padding: 0 10px;
+    font-size: 0.9rem;
     background: transparent;
-    width: 200px;
+    flex: 1;
+    height: 100%;
     color: var(--text-primary);
 }
 
@@ -253,8 +265,9 @@ body {
     color: white;
     border: none;
     border-radius: 6px;
-    width: 32px;
-    height: 32px;
+    width: 30px;
+    height: 30px;
+    flex-shrink: 0;
     cursor: pointer;
     transition: background 0.2s ease;
     display: flex;
@@ -264,6 +277,14 @@ body {
 
 .search-section button:hover {
     background: var(--deep-teal-dark);
+}
+
+/* Right Section — language + user grouped together */
+.top-nav .right-section {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-shrink: 0;
 }
 
 /* User Section */
@@ -351,23 +372,252 @@ body {
 .slide-up { animation: fadeInUp 0.5s ease-out; }
 
 /* ===== RESPONSIVE ===== */
+
+/* --- Sidebar Overlay (mobile backdrop) --- */
+.sidebar-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 997;
+    backdrop-filter: blur(2px);
+    animation: fadeOverlay 0.2s ease;
+}
+
+@keyframes fadeOverlay {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+}
+
+/* --- Tablet (768px - 1024px) --- */
+@media (max-width: 1024px) {
+    .sidebar {
+        width: 220px;
+    }
+    .main-area {
+        margin-left: 220px;
+        width: calc(100% - 220px);
+    }
+    .top-nav {
+        left: 220px;
+        width: calc(100% - 220px);
+    }
+    .sidebar.collapsed ~ .main-area {
+        margin-left: 72px;
+        width: calc(100% - 72px);
+    }
+    .search-section {
+        padding: 0 12px;
+    }
+    .search-section input {
+        width: 140px;
+    }
+}
+
+/* --- Mobile / Tablet Portrait (≤ 768px) --- */
 @media (max-width: 768px) {
+    /* Sidebar slides in from left, hidden by default */
     .sidebar {
         position: fixed;
-        left: -256px;
+        left: -280px;
+        width: 260px;
+        z-index: 998;
+        transition: left 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        box-shadow: none;
     }
 
     .sidebar.active {
         left: 0;
+        box-shadow: 4px 0 32px rgba(0, 0, 0, 0.3);
     }
 
+    /* Collapsed class has no effect on mobile — active/hidden is controlled by .active */
+    .sidebar.collapsed {
+        width: 260px;
+        left: -280px;
+    }
+    .sidebar.collapsed.active {
+        left: 0;
+    }
+    .sidebar.collapsed ul li a span,
+    .sidebar.collapsed .brand-name {
+        display: initial;
+    }
+    .sidebar.collapsed ul li a {
+        justify-content: flex-start;
+        padding: 12px 16px;
+    }
+
+    /* Top nav spans full width */
     .top-nav {
         left: 0;
         width: 100%;
+        padding: 0 16px;
+        height: 60px;
     }
 
+    /* Main area takes full width */
     .main-area {
-        margin-left: 0;
-        width: 100%;
+        margin-left: 0 !important;
+        width: 100% !important;
+    }
+
+    .content-area {
+        margin-top: 60px;
+        padding: 16px;
+    }
+
+    /* Hide search on mobile — too cramped */
+    .search-section {
+        display: none;
+    }
+
+    /* Shrink user section */
+    .user-section span {
+        display: none;
+    }
+
+    .user-section .avatar {
+        width: 34px;
+        height: 34px;
+    }
+
+    /* Collapse right-section gap on mobile */
+    .top-nav .right-section {
+        gap: 6px;
+    }
+
+    /* Page title font size */
+    .top-nav h1 {
+        font-size: 1rem;
+    }
+}
+
+/* --- Medium Mobile (≤ 600px) --- */
+@media (max-width: 600px) {
+    .sidebar {
+        width: 240px;
+        left: -260px;
+    }
+
+    .sidebar .logo-section {
+        padding: 20px 16px;
+    }
+
+    .sidebar .logo-section img,
+    .site-logo {
+        width: 44px;
+        height: 44px;
+    }
+
+    .sidebar ul li a {
+        font-size: 0.9rem;
+        padding: 11px 14px;
+    }
+
+    .top-nav {
+        padding: 0 14px;
+        height: 56px;
+    }
+
+    .content-area {
+        margin-top: 56px;
+        padding: 14px 12px;
+    }
+
+    .menu-btn {
+        font-size: 16px;
+        padding: 8px 10px;
+    }
+}
+
+/* --- Small Mobile / iPhone SE (≤ 480px) --- */
+@media (max-width: 480px) {
+    .sidebar {
+        width: 220px;
+        left: -240px;
+    }
+
+    .sidebar .logo-section {
+        padding: 16px 14px;
+    }
+
+    .sidebar .logo-section img,
+    .site-logo {
+        width: 40px;
+        height: 40px;
+        margin-bottom: 8px;
+    }
+
+    .sidebar .logo-section h2,
+    .brand-name {
+        font-size: 1rem;
+    }
+
+    .sidebar ul {
+        padding: 12px 8px;
+    }
+
+    .sidebar ul li a {
+        font-size: 0.88rem;
+        padding: 10px 12px;
+        gap: 10px;
+    }
+
+    .top-nav {
+        padding: 0 12px;
+        height: 54px;
+    }
+
+    .top-nav h1 {
+        font-size: 0.95rem;
+    }
+
+    .content-area {
+        margin-top: 54px;
+        padding: 12px 10px;
+    }
+
+    .user-section .avatar {
+        width: 30px;
+        height: 30px;
+        border-radius: 8px;
+    }
+}
+
+/* --- Folding Phone / Galaxy Fold (≤ 360px) --- */
+@media (max-width: 360px) {
+    .sidebar {
+        width: 200px;
+        left: -220px;
+    }
+
+    .sidebar .logo-section h2,
+    .brand-name {
+        font-size: 0.9rem;
+    }
+
+    .sidebar ul li a {
+        font-size: 0.82rem;
+        padding: 9px 10px;
+        gap: 8px;
+    }
+
+    .top-nav {
+        padding: 0 10px;
+        height: 52px;
+    }
+
+    .top-nav h1 {
+        font-size: 0.88rem;
+    }
+
+    .content-area {
+        margin-top: 52px;
+        padding: 10px 8px;
+    }
+
+    .menu-btn {
+        font-size: 15px;
+        padding: 7px 9px;
     }
 }

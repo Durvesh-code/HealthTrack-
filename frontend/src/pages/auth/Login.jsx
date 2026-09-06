@@ -133,6 +133,11 @@ const Login = () => {
               <span>{t('auth.newPharmacist')}</span>{" "}
               <Link to="/register/pharmacist">{t('auth.registerHere')}</Link>
             </p>
+            <div style={{ marginTop: '24px', paddingTop: '16px', borderTop: '1px solid var(--border-light)', display: 'flex', justifyContent: 'center' }}>
+              <Link to="/" style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', color: 'var(--deep-teal)', fontWeight: '600', textDecoration: 'none', transition: 'opacity 0.2s' }} onMouseEnter={(e) => e.target.style.opacity = 0.8} onMouseLeave={(e) => e.target.style.opacity = 1}>
+                <i className="fa fa-arrow-left"></i> Go to Home Page
+              </Link>
+            </div>
           </div>
         </div>
       </div>

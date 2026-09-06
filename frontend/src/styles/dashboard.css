@@ -639,7 +639,52 @@ select:focus {
     border-color: var(--deep-teal);
 }
 
+/* =============================================================
+   RESPONSIVE — PATIENT DASHBOARD
+   Breakpoints: ≤768 | ≤600 | ≤480 | ≤360
+============================================================= */
+
+/* ─── Tablet / Phablet (≤ 768px) ─── */
 @media (max-width: 768px) {
+    .dashboard-container {
+        padding: 16px 14px;
+    }
+
+    /* Profile card old */
+    .profile-card {
+        flex-direction: column;
+        text-align: center;
+        padding: 20px;
+    }
+    .profile-grid {
+        grid-template-columns: 1fr;
+    }
+
+    /* Modal form */
+    .form-grid {
+        grid-template-columns: 1fr;
+    }
+
+    /* ── Welcome Header ── */
+    .dashboard-header-v2 {
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 20px 18px;
+        gap: 16px;
+    }
+    .header-v2-title {
+        font-size: 1.35rem;
+    }
+    .header-v2-stats {
+        width: 100%;
+        justify-content: flex-start;
+    }
+    .hstat-link {
+        flex: 1;
+        justify-content: center;
+    }
+
+    /* ── Profile Card v2 ── */
     .profile-card-v2 {
         flex-direction: column;
         padding: 0;
@@ -650,10 +695,10 @@ select:focus {
         border-radius: var(--radius) var(--radius) 0 0;
     }
     .pcv2-avatar-wrap {
-        padding: 24px 24px 0 24px;
+        padding: 20px 20px 0;
     }
     .pcv2-info {
-        padding: 0 24px 24px 24px;
+        padding: 0 20px 20px;
         text-align: center;
     }
     .pcv2-chips {
@@ -663,8 +708,272 @@ select:focus {
         justify-content: center;
     }
     .pcv2-edit-btn {
-        margin: 0 24px 24px 24px;
-        width: calc(100% - 48px);
+        margin: 0 20px 20px;
+        width: calc(100% - 40px);
         justify-content: center;
+    }
+
+    /* ── Filter Buttons ── */
+    .appointment-filters {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        justify-content: center;
+    }
+    .filter-btn {
+        flex: 1 1 auto;
+        min-width: 80px;
+        padding: 9px 12px;
+        font-size: 0.85rem;
+    }
+
+    /* ── Appointments table → card layout ── */
+    .appointments-section {
+        padding: 16px;
+    }
+
+    .appointments-table,
+    .appointments-table thead,
+    .appointments-table tbody,
+    .appointments-table th,
+    .appointments-table td,
+    .appointments-table tr {
+        display: block;
+    }
+
+    .appointments-table thead {
+        display: none; /* hide header row; labels shown via data-label */
+    }
+
+    .appointments-table tbody tr {
+        background: var(--white);
+        border: 1px solid var(--border-light);
+        border-radius: 12px;
+        margin-bottom: 14px;
+        padding: 14px;
+        box-shadow: var(--shadow-sm);
+    }
+
+    .appointments-table td {
+        padding: 8px 0;
+        border: none;
+        font-size: 0.9rem;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+    .appointments-table td::before {
+        content: attr(data-label);
+        font-weight: 700;
+        color: var(--text-muted);
+        font-size: 0.75rem;
+        text-transform: uppercase;
+        letter-spacing: 0.3px;
+        min-width: 70px;
+        flex-shrink: 0;
+    }
+
+    /* ── Modal ── */
+    .modal-content {
+        width: 96vw;
+        padding: 20px 16px;
+        max-height: 95vh;
+    }
+}
+
+/* ─── Medium Mobile (≤ 600px) ─── */
+@media (max-width: 600px) {
+    .dashboard-container {
+        padding: 12px 10px;
+    }
+
+    .dashboard-header-v2 {
+        padding: 18px 14px;
+        gap: 14px;
+        border-radius: 12px;
+    }
+    .header-v2-title {
+        font-size: 1.2rem;
+    }
+    .header-v2-sub {
+        font-size: 0.82rem;
+    }
+    .hstat-num {
+        font-size: 1.25rem;
+    }
+    .hstat-label {
+        font-size: 0.68rem;
+    }
+    .hstat-link {
+        font-size: 0.8rem;
+        padding: 9px 14px;
+    }
+
+    .pcv2-avatar {
+        width: 80px;
+        height: 80px;
+    }
+    .pcv2-name {
+        font-size: 1.15rem;
+    }
+    .pcv2-chip {
+        font-size: 0.8rem;
+        padding: 5px 10px;
+    }
+
+    .appointments-section h3 {
+        font-size: 1rem;
+        margin-bottom: 12px;
+    }
+
+    .filter-btn {
+        font-size: 0.8rem;
+        padding: 8px 10px;
+    }
+
+    .btn.small {
+        padding: 6px 10px;
+        font-size: 0.78rem;
+    }
+}
+
+/* ─── Small Mobile / iPhone SE (≤ 480px) ─── */
+@media (max-width: 480px) {
+    .dashboard-container {
+        padding: 10px 8px;
+    }
+
+    .dashboard-header-v2 {
+        padding: 16px 12px;
+        border-radius: 10px;
+    }
+    .header-v2-date {
+        font-size: 0.75rem;
+    }
+    .header-v2-title {
+        font-size: 1.1rem;
+    }
+    .header-v2-stats {
+        gap: 8px;
+    }
+    .hstat-pill {
+        padding: 8px 12px;
+        min-width: 60px;
+    }
+    .hstat-link {
+        padding: 8px 12px;
+        font-size: 0.78rem;
+    }
+
+    .pcv2-avatar {
+        width: 70px;
+        height: 70px;
+    }
+    .pcv2-name {
+        font-size: 1rem;
+        margin-bottom: 10px;
+    }
+    .pcv2-badge {
+        font-size: 0.68rem;
+        padding: 3px 8px;
+    }
+    .pcv2-chip {
+        font-size: 0.75rem;
+        padding: 4px 8px;
+        max-width: 200px;
+    }
+    .pcv2-edit-btn {
+        font-size: 0.8rem;
+        padding: 8px 14px;
+    }
+
+    .appointment-filters {
+        gap: 6px;
+    }
+    .filter-btn {
+        font-size: 0.75rem;
+        padding: 7px 8px;
+        min-width: 68px;
+    }
+
+    .appointments-table tbody tr {
+        padding: 12px;
+    }
+    .appointments-table td {
+        font-size: 0.82rem;
+        padding: 6px 0;
+    }
+    .appointments-table td::before {
+        font-size: 0.7rem;
+        min-width: 60px;
+    }
+
+    .modal-content {
+        padding: 16px 12px;
+    }
+    .form-actions {
+        flex-direction: column;
+        gap: 8px;
+    }
+    .form-actions .btn {
+        width: 100%;
+    }
+}
+
+/* ─── Folding Phone / Galaxy Fold (≤ 360px) ─── */
+@media (max-width: 360px) {
+    .dashboard-container {
+        padding: 8px 6px;
+    }
+
+    .dashboard-header-v2 {
+        padding: 14px 10px;
+    }
+    .header-v2-title {
+        font-size: 1rem;
+    }
+    .hstat-link {
+        font-size: 0.72rem;
+        padding: 7px 10px;
+    }
+
+    .pcv2-avatar {
+        width: 60px;
+        height: 60px;
+    }
+    .pcv2-name {
+        font-size: 0.95rem;
+    }
+    .pcv2-chip {
+        font-size: 0.7rem;
+        max-width: 160px;
+    }
+
+    .filter-btn {
+        font-size: 0.7rem;
+        padding: 6px 7px;
+        min-width: 56px;
+    }
+
+    .appointments-table tbody tr {
+        padding: 10px;
+        border-radius: 10px;
+    }
+    .appointments-table td {
+        font-size: 0.78rem;
+    }
+    .appointments-table td::before {
+        font-size: 0.65rem;
+        min-width: 54px;
+    }
+
+    .btn {
+        padding: 10px 14px;
+        font-size: 0.82rem;
+    }
+    .btn.small {
+        padding: 5px 8px;
+        font-size: 0.72rem;
     }
 }

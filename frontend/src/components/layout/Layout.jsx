@@ -15,6 +15,7 @@ const Layout = ({ children }) => {
   const location = useLocation();
   const navigate = useNavigate();
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
+  const [mobileOpen, setMobileOpen] = useState(false);
   const [languageOpen, setLanguageOpen] = useState(false);
   const [pendingCollabCount, setPendingCollabCount] = useState(0);
 
@@ -61,7 +62,15 @@ const Layout = ({ children }) => {
   );
 
   const toggleSidebar = () => {
-    setSidebarCollapsed(!sidebarCollapsed);
+    if (window.innerWidth <= 768) {
+      setMobileOpen(!mobileOpen);
+    } else {
+      setSidebarCollapsed(!sidebarCollapsed);
+    }
+  };
+
+  const closeMobileSidebar = () => {
+    setMobileOpen(false);
   };
 
   const handleLogout = () => {
@@ -90,6 +99,11 @@ const Layout = ({ children }) => {
           path: "/register/pharmacist",
           icon: "fa-pills",
           label: t("nav.registerPharmacist"),
+        },
+        {
+          path: "/",
+          icon: "fa-home",
+          label: "Go to Home Page",
         },
       ];
     }
@@ -209,8 +223,16 @@ const Layout = ({ children }) => {
 
   return (
     <div className="dashboard-layout">
+      {/* Mobile Overlay */}
+      {mobileOpen && (
+        <div
+          className="sidebar-overlay"
+          onClick={closeMobileSidebar}
+        />
+      )}
+
       {/* Left Sidebar */}
-      <aside className={`sidebar ${sidebarCollapsed ? "collapsed" : ""}`}>
+      <aside className={`sidebar ${sidebarCollapsed ? "collapsed" : ""} ${mobileOpen ? "active" : ""}`}>
         <div className="logo-section">
           <img
             src="/images/logo.png"
@@ -230,6 +252,7 @@ const Layout = ({ children }) => {
                 to={item.path}
                 className={isActive(item.path) ? "active" : ""}
                 style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}
+                onClick={closeMobileSidebar}
               >
                 <span style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
                   <i className={`fa ${item.icon}`}></i>
@@ -268,6 +291,7 @@ const Layout = ({ children }) => {
       <div className="main-area">
         {/* Top Navbar */}
         <header className="top-nav">
+          {/* LEFT — hamburger + page title */}
           <div className="left-section">
             <button onClick={toggleSidebar} className="menu-btn">
               <i className="fa fa-bars"></i>
@@ -275,44 +299,7 @@ const Layout = ({ children }) => {
             <h1>{pageTitle}</h1>
           </div>
 
-          {/* Language Selector */}
-          <div className={`language-selector ${languageOpen ? "open" : ""}`}>
-            <button
-              className="language-btn"
-              title="Select Language"
-              onClick={() => setLanguageOpen(!languageOpen)}
-            >
-              <i className="fa-solid fa-globe"></i>
-              <span className="current-lang">{currentLangName}</span>
-              <i className="fa-solid fa-chevron-down dropdown-arrow"></i>
-            </button>
-
-            <div className="language-dropdown">
-              <div
-                className={`language-option ${currentLanguage === "en" ? "active" : ""}`}
-                onClick={() => handleLanguageChange("en")}
-              >
-                <span className="lang-code">EN</span>
-                <span className="lang-name">English</span>
-              </div>
-              <div
-                className={`language-option ${currentLanguage === "hi" ? "active" : ""}`}
-                onClick={() => handleLanguageChange("hi")}
-              >
-                <span className="lang-code">HI</span>
-                <span className="lang-name">हिंदी</span>
-              </div>
-              <div
-                className={`language-option ${currentLanguage === "mr" ? "active" : ""}`}
-                onClick={() => handleLanguageChange("mr")}
-              >
-                <span className="lang-code">MR</span>
-                <span className="lang-name">मराठी</span>
-              </div>
-            </div>
-          </div>
-
-          {/* Search */}
+          {/* CENTER — Search */}
           <div className="search-section">
             <form onSubmit={(e) => e.preventDefault()}>
               <input type="text" placeholder={t("common.search")} name="q" />
@@ -322,10 +309,50 @@ const Layout = ({ children }) => {
             </form>
           </div>
 
-          {/* User Section */}
-          <div className="user-section">
-            <img src={getAvatarUrl()} className="avatar" alt="User" />
-            <span>{getUserName()}</span>
+          {/* RIGHT — Language selector + User */}
+          <div className="right-section">
+            {/* Language Selector */}
+            <div className={`language-selector ${languageOpen ? "open" : ""}`}>
+              <button
+                className="language-btn"
+                title="Select Language"
+                onClick={() => setLanguageOpen(!languageOpen)}
+              >
+                <i className="fa-solid fa-globe"></i>
+                <span className="current-lang">{currentLangName}</span>
+                <i className="fa-solid fa-chevron-down dropdown-arrow"></i>
+              </button>
+
+              <div className="language-dropdown">
+                <div
+                  className={`language-option ${currentLanguage === "en" ? "active" : ""}`}
+                  onClick={() => handleLanguageChange("en")}
+                >
+                  <span className="lang-code">EN</span>
+                  <span className="lang-name">English</span>
+                </div>
+                <div
+                  className={`language-option ${currentLanguage === "hi" ? "active" : ""}`}
+                  onClick={() => handleLanguageChange("hi")}
+                >
+                  <span className="lang-code">HI</span>
+                  <span className="lang-name">हिंदी</span>
+                </div>
+                <div
+                  className={`language-option ${currentLanguage === "mr" ? "active" : ""}`}
+                  onClick={() => handleLanguageChange("mr")}
+                >
+                  <span className="lang-code">MR</span>
+                  <span className="lang-name">मराठी</span>
+                </div>
+              </div>
+            </div>
+
+            {/* User */}
+            <div className="user-section">
+              <img src={getAvatarUrl()} className="avatar" alt="User" />
+              <span>{getUserName()}</span>
+            </div>
           </div>
         </header>
 

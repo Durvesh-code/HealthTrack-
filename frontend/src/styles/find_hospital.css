@@ -750,3 +750,111 @@
     margin: 0;
     line-height: 1.4;
 }
+
+/* ─── Medium Mobile (≤ 600px) ─── */
+@media (max-width: 600px) {
+    .find-hospital-container {
+        padding: 1rem;
+    }
+
+    .header h1 {
+        font-size: 1.4rem;
+    }
+
+    .subtitle {
+        font-size: 0.9rem;
+    }
+
+    .search-section {
+        gap: 0.5rem;
+    }
+
+    #location-input {
+        font-size: 0.9rem;
+        padding: 0.8rem 0.8rem 0.8rem 2.5rem;
+    }
+
+    .btn {
+        padding: 0.75rem 1rem;
+        font-size: 0.88rem;
+    }
+
+    .results-section ul {
+        grid-template-columns: 1fr;
+        gap: 0.75rem;
+    }
+
+    .hospital-card {
+        padding: 1rem;
+    }
+
+    .map-modal-content {
+        margin: 0.5rem;
+        width: calc(100% - 1rem);
+    }
+}
+
+/* ─── Small Mobile / iPhone SE (≤ 480px) ─── */
+@media (max-width: 480px) {
+    .find-hospital-container {
+        padding: 0.75rem 0.65rem;
+    }
+
+    .header {
+        margin-bottom: 1.25rem;
+    }
+
+    .header h1 {
+        font-size: 1.25rem;
+    }
+
+    .subtitle {
+        font-size: 0.82rem;
+    }
+
+    #location-input {
+        font-size: 0.85rem;
+        padding: 0.7rem 0.7rem 0.7rem 2.25rem;
+    }
+
+    .btn,
+    .full-width-btn {
+        font-size: 0.82rem;
+        padding: 0.7rem 0.9rem;
+    }
+
+    .modal-header h3 {
+        font-size: 1rem;
+    }
+
+    .map-modal-content {
+        margin: 0.25rem;
+        width: calc(100% - 0.5rem);
+    }
+}
+
+/* ─── Galaxy Fold / Ultra Small (≤ 360px) ─── */
+@media (max-width: 360px) {
+    .find-hospital-container {
+        padding: 0.6rem 0.5rem;
+    }
+
+    .header h1 {
+        font-size: 1.1rem;
+    }
+
+    .subtitle {
+        font-size: 0.78rem;
+    }
+
+    #location-input {
+        font-size: 0.8rem;
+        padding: 0.65rem 0.65rem 0.65rem 2rem;
+    }
+
+    .btn,
+    .full-width-btn {
+        font-size: 0.78rem;
+        padding: 0.65rem 0.8rem;
+    }
+}
