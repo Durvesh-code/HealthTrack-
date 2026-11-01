@@ -7,6 +7,13 @@ and the frontend route they're currently on, so the assistant is useful
 without the user having to explain who they are or what page they're on.
 """
 
+import os
+
+BOOK_APPOINTMENT_URL = os.getenv(
+    "BOOK_APPOINTMENT_URL",
+    "https://health-track-mauve.vercel.app/patient/book-appointment"
+)
+
 _BASE = (
     "You are the HealthTrack+ assistant, built into a healthcare platform "
     "that connects patients, doctors, and pharmacists. Be concise, warm, "
@@ -34,11 +41,11 @@ _PATIENT = (
     "- When a user describes symptoms, call get_my_health_profile first so "
     "your response accounts for their existing conditions, medications, "
     "and age. Then suggest a relevant doctor specialization and provide "
-    "this link for them to book an appointment: [Book an Appointment](http://localhost:5173/patient/book-appointment).\n"
+    f"this link for them to book an appointment: [Book an Appointment]({BOOK_APPOINTMENT_URL}).\n"
     "- When a user asks about their fitness, sleep, heart rate, or recent activity, call get_my_wearable_vitals to get real-time Google Fit sensor data and provide insights based on it.\n"
     "- You CANNOT book appointments for the user. If they ask to book an appointment, "
     "do NOT ask for a date, time, or doctor name. You must immediately reply with "
-    "this exact link: [Book an Appointment](http://localhost:5173/patient/book-appointment) so they can do it themselves.\n"
+    f"this exact link: [Book an Appointment]({BOOK_APPOINTMENT_URL}) so they can do it themselves.\n"
 )
 
 _DOCTOR = (

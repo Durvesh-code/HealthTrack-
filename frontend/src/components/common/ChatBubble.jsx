@@ -356,7 +356,27 @@ const ChatBubble = () => {
                                         </button>
                                     </div>
                                 ) : msg.role === 'assistant' ? (
-                                    <ReactMarkdown>{msg.content}</ReactMarkdown>
+                                    <ReactMarkdown
+                                    components={{
+                                        a: ({ node, ...props }) => {
+                                            let href = props.href || '';
+                                            if (href.includes('localhost:5173')) {
+                                                href = href.replace(/https?:\/\/localhost:5173/, window.location.origin);
+                                            }
+                                            const isExternal = href.startsWith('http') && !href.startsWith(window.location.origin);
+                                            return (
+                                                <a
+                                                    {...props}
+                                                    href={href}
+                                                    target={isExternal ? '_blank' : '_self'}
+                                                    rel="noopener noreferrer"
+                                                />
+                                            );
+                                        }
+                                    }}
+                                >
+                                    {msg.content}
+                                </ReactMarkdown>
                                 ) : (
                                     msg.content
                                 )}
